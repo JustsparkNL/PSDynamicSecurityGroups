@@ -1,0 +1,17 @@
+TOPIC
+    about_PSDynamicSecurityGroups
+
+SHORT DESCRIPTION
+    A PowerShell Module that provides an easy way to create and manage Active Directory Dynamic Security Groups.
+
+LONG DESCRIPTION
+    A PowerShell Module that provides an easy way to create and manage Active Directory Dynamic Security Groups.
+
+EXAMPLES
+    Update-DSG -SearchBase "OU=SomeOU,DC=ad,DC=SomeDomain,DC=tld" -SearchScope SubTree -Server 'ad.domain.tld' -ADObjectType computer -GroupName 'DynamicSecurityGroup-1' -DestOU "OU=SomeOtherOU,DC=ad,DC=SomeDomain,DC=tld" -GroupCategory Security -GroupScope Global -GroupDescription 'SomeDescription'
+
+KEYWORDS
+    Active Directory,Security Groups,Group,Dynamic,Dynamic Security Groups,Shadow Groups
+
+SEE ALSO
+    https://github.com/GraficomGroup/PSDynamicSecurityGroup
