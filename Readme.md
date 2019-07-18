@@ -1,4 +1,4 @@
-![PSDynamicSecurityGroups](src/other/powershell-project.png)
+![PSDynamicSecurityGroups](src/other/DSG_256.png)
 
 # PSDynamicSecurityGroups
 
@@ -28,6 +28,8 @@ and import the module to your session to test, but not install this module.
 ## Versions
 
 1.0.0 - Initial Release
+
+1.0.1 - Updated mandatory flag of description. Updated to all functions to the function template.
 
 ## Contribute
 

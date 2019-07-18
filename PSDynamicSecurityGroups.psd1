@@ -12,7 +12,7 @@
 RootModule = 'PSDynamicSecurityGroups.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.0.0'
+ModuleVersion = '1.0.1'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -75,7 +75,7 @@ FunctionsToExport = '*'
 CmdletsToExport = '*'
 
 # Variables to export from this module
-VariablesToExport = @()
+# VariablesToExport = @()
 
 # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
 AliasesToExport = @()
@@ -95,8 +95,7 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        Tags = 'Active Directory', 'Security Groups', 'Group', 'Dynamic', 
-               'Dynamic Security Groups', 'Shadow Groups'
+        Tags = 'ActiveDirectory','SecurityGroups','Group','Dynamic','DynamicSecurityGroups','ShadowGroups'
 
         # A URL to the license for this module.
         LicenseUri = 'https://github.com/GraficomGroup/PSDynamicSecurityGroup/raw/master/LICENSE.md'
@@ -108,11 +107,20 @@ PrivateData = @{
         IconUri = 'https://github.com/GraficomGroup/PSDynamicSecurityGroup/raw/master/src/other/powershell-project.png'
 
         # ReleaseNotes of this module
-        # ReleaseNotes = ''
+        ReleaseNotes = 'Updated mandatory flag of description. Updated to all functions to the function template'
+
+        # Prerelease string of this module
+        # Prerelease = ''
+
+        # Flag to indicate whether the module requires explicit user acceptance for install/update/save
+        # RequireLicenseAcceptance = $false
+
+        # External dependent modules of this module
+        # ExternalModuleDependencies = @()
 
     } # End of PSData hashtable
 
-} # End of PrivateData hashtable
+ } # End of PrivateData hashtable
 
 # HelpInfo URI of this module
 # HelpInfoURI = ''
@@ -121,3 +129,4 @@ PrivateData = @{
 # DefaultCommandPrefix = ''
 
 }
+

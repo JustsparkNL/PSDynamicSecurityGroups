@@ -1,9 +1,9 @@
 Function Remove-DSGMember {
     <#
     .SYNOPSIS
-        Removes members from the Dynamic Security Group. 
+        Removes members from the Dynamic Security Group.
     .DESCRIPTION
-        Removes members from the Dynamic Security Group. 
+        Removes members from the Dynamic Security Group.
     .PARAMETER GroupName
         The DynamicSecurityGroup name to remove members from.
     .PARAMETER Member
@@ -21,14 +21,18 @@ Function Remove-DSGMember {
         $Member
     )
     Begin {
-    
+        if ($script:ThisModuleLoaded -eq $true) {
+            Get-CallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState
+        }
+        $FunctionName = $MyInvocation.MyCommand.Name
+        Write-Verbose "$($FunctionName): Begin."
     } Process {
         Try {
             Try {
                 if ($null -eq $($Member.Name)) {
-                    Write-Verbose "Removing '$($Member)' from '$($GroupName)'"
+                    Write-Verbose "$($FunctionName): Removing '$($Member)' from '$($GroupName)'"
                 } Else {
-                    Write-Verbose "Removing '$($Member.Name)' from '$($GroupName)'"
+                    Write-Verbose "$($FunctionName): Removing '$($Member.Name)' from '$($GroupName)'"
                 }
                 if ($PSCmdlet.ShouldProcess("Removing AD group member: '$Member'")) {
                     if ($null -eq $($Member.objectGUID)) {
@@ -38,13 +42,13 @@ Function Remove-DSGMember {
                     }
                 }
             } Catch {
-                Write-Warning "Failed to remove '$Member' from group '$GroupName'"
-                Write-Error $PSItem
+                Write-Warning "$($FunctionName): Failed to remove '$Member' from group '$GroupName'"
+                Write-Error -Message "$($FunctionName): $PSItem"
             }
         } Catch {
             $PSCmdlet.ThrowTerminatingError($PSItem)
         }
-    } End { 
-    
+    } End {
+        Write-Verbose "$($FunctionName): End."
     }
 }

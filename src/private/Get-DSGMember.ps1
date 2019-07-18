@@ -32,40 +32,46 @@ Function Get-DSGMember {
         [Parameter(Mandatory = $true, HelpMessage = 'The GroupScope the DynamicSecurityGroup should be created as (If it doesnt exist)')]
         [ValidateSet("Global","Universal","0","1")]
         $GroupScope,
-        [Parameter(Mandatory = $true, HelpMessage = 'The Description of the DynamicSecurityGroup.')]
+        [Parameter(Mandatory = $false, HelpMessage = 'The Description of the DynamicSecurityGroup.')]
         $GroupDescription
     )
     Begin {
-        Try {        
+        if ($script:ThisModuleLoaded -eq $true) {
+            Get-CallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState
+        }
+        $FunctionName = $MyInvocation.MyCommand.Name
+        Write-Verbose "$($FunctionName): Begin."
+        Try {
             $GroupCategory = $(Resolve-DSGGroupCategoryFriendlyName -GroupCategory $GroupCategory)
             Try {
                 if ($null -eq $(Get-ADGroup -Filter { sAMAccountName -eq $GroupName } -Properties Description -SearchBase $DestOU -ErrorAction Stop)) {
-                    Write-Error "Could not find a group with the name '$($GroupName)'" -ErrorAction Stop
+                    Write-Error "$($FunctionName): Could not find a group with the name '$($GroupName)'" -ErrorAction Stop
                 }
             } Catch {
                 Try {
                     New-ADGroup -Name $GroupName -sAMAccountName $GroupName -Description $GroupDescription -Path $DestOU -GroupCategory $GroupCategory -GroupScope $GroupScope -ErrorAction Stop
                 } Catch {
-                    Write-Error "Could not create group a group named '$($GroupName)' - $($PSItem)" -ErrorAction Stop
+                    Write-Error "$($FunctionName): Could not create group a group named '$($GroupName)' - $($PSItem)" -ErrorAction Stop
                 }
             }
         } Catch {
             $PSCmdlet.ThrowTerminatingError($PSItem)
-        }            
+        }
     } Process {
         Try {
             $ADGroup = Get-ADGroup -Filter { sAMAccountName -eq $GroupName } -Properties Description -SearchBase $DestOU -ErrorAction Stop
             if ($null -eq $ADGroup) {
-                Write-Error "Could not find a group with the name '$($GroupName)'" -ErrorAction Stop
-            }                     
+                Write-Error "$($FunctionName): Could not find a group with the name '$($GroupName)'" -ErrorAction Stop
+            }
             $GroupMembers = Get-ADGroupMember -Identity $GroupName -ErrorAction Stop
             If ($ADGroup.Description -ne $GroupDescription) {
                 Set-ADGroup -Identity $ADGroup -Description $GroupDescription -ErrorAction Stop
-            }               
+            }
         } Catch {
             $PSCmdlet.ThrowTerminatingError($PSItem)
         }
     } End {
         Return $GroupMembers
+        Write-Verbose "$($FunctionName): End."
     }
 }

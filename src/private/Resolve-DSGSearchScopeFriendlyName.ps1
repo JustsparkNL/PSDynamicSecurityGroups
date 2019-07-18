@@ -9,7 +9,7 @@ Function Resolve-DSGSearchScopeFriendlyName {
     .EXAMPLE
         Resolve-DSGSearchScopeFriendlyName -SearchScope "Subtree"
     .NOTES
-        0, 1 and 2 are added to the ValidateSet for function recalling/nested functions.  
+        0, 1 and 2 are added to the ValidateSet for function recalling/nested functions.
     #>
     [Cmdletbinding()]
     Param (
@@ -18,6 +18,11 @@ Function Resolve-DSGSearchScopeFriendlyName {
         $SearchScope
     )
     Begin {
+        if ($script:ThisModuleLoaded -eq $true) {
+            Get-CallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState
+        }
+        $FunctionName = $MyInvocation.MyCommand.Name
+        Write-Verbose "$($FunctionName): Begin."
         $Scope = @()
     } Process {
         Try {
@@ -32,5 +37,6 @@ Function Resolve-DSGSearchScopeFriendlyName {
         }
     } End {
         Return $Scope
+        Write-Verbose "$($FunctionName): End."
     }
 }

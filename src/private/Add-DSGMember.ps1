@@ -1,9 +1,9 @@
 Function Add-DSGMember {
     <#
     .SYNOPSIS
-        Adds members to the Dynamic Security Group. 
+        Adds members to the Dynamic Security Group.
     .DESCRIPTION
-        Adds members to the Dynamic Security Group. 
+        Adds members to the Dynamic Security Group.
     .PARAMETER GroupName
         The DynamicSecurityGroup name to get members from.
     .PARAMETER Member
@@ -21,14 +21,18 @@ Function Add-DSGMember {
         $Member
     )
     Begin {
-    
+        if ($script:ThisModuleLoaded -eq $true) {
+            Get-CallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState
+        }
+        $FunctionName = $MyInvocation.MyCommand.Name
+        Write-Verbose "$($FunctionName): Begin."
     } Process {
         Try {
             Try {
                 if ($null -eq $($Member.Name)) {
-                    Write-Verbose "Adding '$($Member)' to '$($GroupName)'"
+                    Write-Verbose "$($FunctionName): Adding '$($Member)' to '$($GroupName)'"
                 } Else {
-                    Write-Verbose "Adding '$($Member.Name)' to '$($GroupName)'"
+                    Write-Verbose "$($FunctionName): Adding '$($Member.Name)' to '$($GroupName)'"
                 }
                 if ($null -eq $($Member.objectGUID)) {
                     Add-ADGroupMember -Identity $GroupName -Members $Member -ErrorAction Stop
@@ -36,13 +40,13 @@ Function Add-DSGMember {
                     Add-ADGroupMember -Identity $GroupName -Members $Member.objectGUID -ErrorAction Stop
                 }
             } Catch {
-                Write-Warning "Failed to add '$Member' to group '$GroupName'"
-                Write-Error $_
+                Write-Warning -Message "$($FunctionName): Failed to add '$Member' to group '$GroupName'"
+                Write-Error -Message "$($FunctionName): $PSItem"
             }
         } Catch {
             $PSCmdlet.ThrowTerminatingError($PSItem)
         }
-    } End { 
-    
+    } End {
+        Write-Verbose "$($FunctionName): End."
     }
 }

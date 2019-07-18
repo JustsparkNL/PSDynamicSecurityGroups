@@ -3,7 +3,7 @@ Function Resolve-DSGGroupCategoryFriendlyName {
     .SYNOPSIS
         Resolve the group category 'Friendly Name' to the appropriate interger.
     .DESCRIPTION
-        Resolve the group category 'Friendly Name' to the appropriate interger, returns 1 if supplied value is unknown/undefined in switch block. 
+        Resolve the group category 'Friendly Name' to the appropriate interger, returns 1 if supplied value is unknown/undefined in switch block.
     .PARAMETER GroupCategory
         The DynamicSecurityGroup Group Category friendly name.
     .EXAMPLE
@@ -18,6 +18,11 @@ Function Resolve-DSGGroupCategoryFriendlyName {
         $GroupCategory
     )
     Begin {
+        if ($script:ThisModuleLoaded -eq $true) {
+            Get-CallerPreference -Cmdlet $PSCmdlet -SessionState $ExecutionContext.SessionState
+        }
+        $FunctionName = $MyInvocation.MyCommand.Name
+        Write-Verbose "$($FunctionName): Begin."
         $Category = @()
     } Process {
         Try {
@@ -31,5 +36,6 @@ Function Resolve-DSGGroupCategoryFriendlyName {
         }
     } End {
         Return $Category
+        Write-Verbose "$($FunctionName): End."
     }
 }
