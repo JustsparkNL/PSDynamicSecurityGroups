@@ -17,9 +17,9 @@ if ((Get-Variable 'BuildEnv' -ErrorAction:SilentlyContinue) -eq $null) {
         Encoding = 'utf8'
         ModuleToBuild = 'PSDynamicSecurityGroups'
         ModuleVersion = '1.0.0'
-        ModuleWebsite = 'https://github.com/GraficomGroup/PSDynamicSecurityGroup'
+        ModuleWebsite = 'https://github.com/GraficomGroup/PSDynamicSecurityGroups'
         ModuleCopyright = "(c) $((get-date).Year.ToString()) Justin Perdok. All rights reserved."
-        ModuleLicenseURI = 'https://github.com/GraficomGroup/PSDynamicSecurityGroup/LICENSE.md'
+        ModuleLicenseURI = 'https://github.com/GraficomGroup/PSDynamicSecurityGroups/LICENSE.md'
         ModuleTags = 'ActiveDirectory,SecuritGroups,Group,Dynamic,DynamicSecurityGroups,ShadowGroups' -split ','
         ModuleAuthor = 'Justin Perdok'
         ModuleDescription = 'A PowerShell Module that provides an easy way to create and manage Active Directory Dynamic Security Groups.'

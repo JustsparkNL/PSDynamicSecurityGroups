@@ -1,10 +1,10 @@
 # Run this in an administrative PowerShell prompt to install the PSDynamicSecurityGroups PowerShell module:
 #
-# 	iex (New-Object Net.WebClient).DownloadString("https://github.com/GraficomGroup/PSDynamicSecurityGroup/raw/master/Install.ps1")
+# 	iex (New-Object Net.WebClient).DownloadString("https://github.com/GraficomGroup/PSDynamicSecurityGroups/raw/master/Install.ps1")
 
 # Some general variables
 $ModuleName = 'PSDynamicSecurityGroups'
-$DownloadURL = 'https://github.com/GraficomGroup/PSDynamicSecurityGroup/raw/master/release/PSDynamicSecurityGroups-current.zip'
+$DownloadURL = 'https://github.com/GraficomGroup/PSDynamicSecurityGroups/raw/master/release/PSDynamicSecurityGroups-current.zip'
 
 # Download and install the module
 $webclient = New-Object System.Net.WebClient

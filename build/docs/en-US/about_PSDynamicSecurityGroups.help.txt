@@ -14,4 +14,4 @@ KEYWORDS
     Active Directory,Security Groups,Group,Dynamic,Dynamic Security Groups,Shadow Groups
 
 SEE ALSO
-    https://github.com/GraficomGroup/PSDynamicSecurityGroup
+    https://github.com/GraficomGroup/PSDynamicSecurityGroups

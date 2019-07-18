@@ -1,7 +1,7 @@
 # PSDynamicSecurityGroups
 A PowerShell Module that provides an easy way to create and manage Active Directory Dynamic Security Groups.
 
-Project Site: [https://github.com/GraficomGroup/PSDynamicSecurityGroup](https://github.com/GraficomGroup/PSDynamicSecurityGroup)
+Project Site: [https://github.com/GraficomGroup/PSDynamicSecurityGroups](https://github.com/GraficomGroup/PSDynamicSecurityGroups)
 
 ## What is PSDynamicSecurityGroups?
 A PowerShell Module that provides an easy way to create and manage Active Directory Dynamic Security Groups.

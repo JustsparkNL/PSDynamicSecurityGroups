@@ -98,13 +98,13 @@ PrivateData = @{
         Tags = 'ActiveDirectory','SecurityGroups','Group','Dynamic','DynamicSecurityGroups','ShadowGroups'
 
         # A URL to the license for this module.
-        LicenseUri = 'https://github.com/GraficomGroup/PSDynamicSecurityGroup/raw/master/LICENSE.md'
+        LicenseUri = 'https://github.com/GraficomGroup/PSDynamicSecurityGroups/raw/master/LICENSE.md'
 
         # A URL to the main website for this project.
-        ProjectUri = 'https://github.com/GraficomGroup/PSDynamicSecurityGroup'
+        ProjectUri = 'https://github.com/GraficomGroup/PSDynamicSecurityGroups'
 
         # A URL to an icon representing this module.
-        IconUri = 'https://github.com/GraficomGroup/PSDynamicSecurityGroup/raw/master/src/other/powershell-project.png'
+        IconUri = 'https://github.com/GraficomGroup/PSDynamicSecurityGroups/raw/master/src/other/powershell-project.png'
 
         # ReleaseNotes of this module
         ReleaseNotes = 'Updated mandatory flag of description. Updated to all functions to the function template'

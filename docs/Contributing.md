@@ -1,6 +1,6 @@
 # Contributing to PSDynamicSecurityGroups
 
-Project Site: [https://github.com/GraficomGroup/PSDynamicSecurityGroup](https://github.com/GraficomGroup/PSDynamicSecurityGroup)
+Project Site: [https://github.com/GraficomGroup/PSDynamicSecurityGroups](https://github.com/GraficomGroup/PSDynamicSecurityGroups)
 
 There are some important things to be aware of if you plan on contributing to this project.
 
