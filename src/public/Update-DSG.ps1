@@ -76,29 +76,33 @@ Function Update-DSG {
         if ( -not ($Force -or $PSCmdlet.ShouldContinue("Running this command will update '$($GroupName)'. This will replace all members with objects listed in '$($SearchBase)' with the '$($ADObjectType)'-ADObjectType. Do you want to continue?", "This will replace all members of '$($GroupName)'"))) {
             return # user replied no
         }
-        $Obj          = Get-DSGSourceObject -SearchBase $SearchBase -SearchScope $SearchScope -Server $Server -ADObjectType $ADObjectType
-        $GroupMembers = Get-DSGMember -GroupName $GroupName -DestOU $DestOU -GroupCategory $GroupCategory -GroupScope $GroupScope -GroupDescription $GroupDescription
-        If ( -not ($GroupMembers) -and ($Obj)) {
-            Write-Debug "If the group is empty, populate the group."
-            Write-Verbose "'$($GroupName)' is empty"
-            ForEach ($o in $Obj) {
-                Add-DSGMember -GroupName $GroupName -Member $o
+        Try {
+            $Obj          = Get-DSGSourceObject -SearchBase $SearchBase -SearchScope $SearchScope -Server $Server -ADObjectType $ADObjectType -ErrorAction Stop
+            $GroupMembers = Get-DSGMember -GroupName $GroupName -DestOU $DestOU -GroupCategory $GroupCategory -GroupScope $GroupScope -GroupDescription $GroupDescription -ErrorAction Stop
+            If ( -not ($GroupMembers) -and ($Obj)) {
+                Write-Debug "If the group is empty, populate the group."
+                Write-Verbose "'$($GroupName)' is empty"
+                ForEach ($o in $Obj) {
+                    Add-DSGMember -GroupName $GroupName -Member $o
+                }
+            } ElseIf (($null -eq $Obj) -and ($GroupMembers)) {
+                Write-Debug "$($FunctionName): If there are no members in the sync source, empty the group."
+                Write-Verbose "$($FunctionName): Emptying '$($GroupName)'"
+                ForEach ($Member in $GroupMembers) {
+                    Remove-DSGMember -GroupName $GroupName -Member $Member
+                }
             }
-        } ElseIf (($null -eq $Obj) -and ($GroupMembers)) {
-            Write-Debug "$($FunctionName): If there are no members in the sync source, empty the group."
-            Write-Verbose "$($FunctionName): Emptying '$($GroupName)'"
-            ForEach ($Member in $GroupMembers) {
-                Remove-DSGMember -GroupName $GroupName -Member $Member
+            ElseIf (($GroupMembers) -and ($Obj)) {
+                Write-Debug "$($FunctionName) - If the group has members, get the group members to mirror the OU contents."
+                Switch (Compare-Object -ReferenceObject $GroupMembers -DIfferenceObject $Obj -property objectGUID, Name) {
+                    { $_.SideIndicator -eq "=>" } { Add-DSGMember    $GroupName $_ }
+                    { $_.SideIndicator -eq "<=" } { Remove-DSGMember $GroupName $_ }
+                }
             }
+            Write-Verbose "$($FunctionName): The sync of group '$($GroupName)' has been completed."
+        } Catch {
+            $PSCmdlet.ThrowTerminatingError($PSItem)
         }
-        ElseIf (($GroupMembers) -and ($Obj)) {
-            Write-Debug "$($FunctionName) - If the group has members, get the group members to mirror the OU contents."
-            Switch (Compare-Object -ReferenceObject $GroupMembers -DIfferenceObject $Obj -property objectGUID, Name) {
-                { $_.SideIndicator -eq "=>" } { Add-DSGMember    $GroupName $_ }
-                { $_.SideIndicator -eq "<=" } { Remove-DSGMember $GroupName $_ }
-            }
-        }
-        Write-Verbose "$($FunctionName): The sync of group '$($GroupName)' has been completed."
     }
     } End {
         Write-Verbose "$($FunctionName): End."
