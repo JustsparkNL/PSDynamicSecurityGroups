@@ -32,7 +32,7 @@ and import the module to your session to test, but not install this module.
 
 1.0.0 - Initial Release
 
-1.0.1 - Updated mandatory flag of description. Updated to all functions to the function template.
+1.0.1 - Updated mandatory flag of description. Updated all functions to the function template.
 
 1.0.2 - Ensure that Update-DSG handles errors gracefully. Removed multiple OU support. Updated License.
 
