@@ -6,4 +6,4 @@ This project owes some acknowlegement to other projects. Here are some other aut
 
 [ModuleBuild](https://github.com/zloeber/ModuleBuild) - A PowerShell module build framwork.
 
-[shadowGroupSync](https://github.com/davegreen/shadowGroupSync)  - This module is heavily based of shadowGroupSync by [David Green](http://www.tookitaway.co.uk) - [License](https://github.com/davegreen/shadowGroupSync/blob/master/LICENSE.md)
+[shadowGroupSync](https://github.com/davegreen/shadowGroupSync) - This module is heavily based of shadowGroupSync by [David Green](http://www.tookitaway.co.uk).

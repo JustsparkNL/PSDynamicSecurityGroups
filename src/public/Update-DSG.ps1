@@ -33,7 +33,7 @@ Function Update-DSG {
     #>
     [Cmdletbinding(SupportsShouldProcess)]
     Param (
-        [Parameter(Mandatory = $true, HelpMessage = 'The base OU DistinguishedName of to search for objects. Multiples can be specIfied and chained together with a semicolon.')]
+        [Parameter(Mandatory = $true, HelpMessage = 'The base OU DistinguishedName of to search for objects.')]
         $SearchBase,
         [Parameter(Mandatory = $true, HelpMessage = 'The Scope of the search for objects.')]
         [ValidateSet("Base","OneLevel","SubTree")]

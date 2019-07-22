@@ -17,7 +17,7 @@ Function Get-DSGSourceObject {
     #>
     [Cmdletbinding()]
     Param (
-        [Parameter(Mandatory = $true, HelpMessage = 'The base OU DistinguishedName of to search for objects. Multiples can be specIfied and chained together with a semicolon.')]
+        [Parameter(Mandatory = $true, HelpMessage = 'The base OU DistinguishedName of to search for objects.')]
         $SearchBase,
         [Parameter(Mandatory = $true, HelpMessage = 'The Scope of the search for objects.')]
         [ValidateSet("Base","OneLevel","SubTree","0","1","2")]
@@ -37,42 +37,31 @@ Function Get-DSGSourceObject {
         $SearchScope = $(Resolve-DSGSearchScopeFriendlyName -SearchScope $SearchScope)
     } Process {
         Try {
-            $MultiObj = @()
-            $Obj      = $null
-            $Bases    = $SearchBase.Split(";")
-            Write-Debug -Message "$($FunctionName): If the searchbase is an array of searchbases, recall the function, concatenate the results and pass back the complete set."
-            If ($Bases.Count -gt 1) {
-                 ForEach ($Base in $Bases) {
-                     $MultiObj += Get-DSGSourceObject -SearchBase $SearchBase -SearchScope $SearchScope -Server $Server -ADObjectType $ADObjectType
-                 }
-                 Return $MultiObj
-            } Else {
-                Try {
-                    $Obj = Switch ($ADObjectType) {
-                        {($_ -eq "user") -or ($_ -eq "user-enabled")} {
-                            Get-ADUser -Filter { Enabled -eq $true } -SearchBase $SearchBase -SearchScope $SearchScope -Server $Server -ErrorAction Stop
-                        }
-                        "user-disabled" {
-                            Get-ADUser -Filter { Enabled -eq $false } -SearchBase $SearchBase -SearchScope $SearchScope -Server $Server -ErrorAction Stop
-                        }
-                        "user-mail-enabled" {
-                            Get-ADUser -Filter { Mail -like '*' -and Enabled -eq $true } -SearchBase $SearchBase -SearchScope $SearchScope -Server $Server -ErrorAction Stop
-                        }
-                        "computer" {
-                            Get-ADComputer -Filter { Enabled -eq $true } -SearchBase $SearchBase -SearchScope $SearchScope -Server $Server -ErrorAction Stop
-                        }
-                        default {
-                            Write-Error -Message "$($FunctionName): Invalid ADObjectType specIfied: '$($ADObjectType)'" -ErrorAction Stop
-                        }
+            Try {
+                $Obj = Switch ($ADObjectType) {
+                    {($_ -eq "user") -or ($_ -eq "user-enabled")} {
+                        Get-ADUser -Filter { Enabled -eq $true } -SearchBase $SearchBase -SearchScope $SearchScope -Server $Server -ErrorAction Stop
                     }
-                    Write-Debug "`$($FunctionName): $Obj must be a collection of AD objects with a Name and an ObjectGUID property: '$($Obj)'"
-                } Catch [Microsoft.ActiveDirectory.Management.ADIdentityNotFoundException] {
-                    Write-Error "$($FunctionName): The OU '$SearchBase' does not appear to exist." -ErrorAction Stop
-                } Catch {
-                    Write-Error -Message "$($FunctionName): $PSItem" -ErrorAction Stop
+                    "user-disabled" {
+                        Get-ADUser -Filter { Enabled -eq $false } -SearchBase $SearchBase -SearchScope $SearchScope -Server $Server -ErrorAction Stop
+                    }
+                    "user-mail-enabled" {
+                        Get-ADUser -Filter { Mail -like '*' -and Enabled -eq $true } -SearchBase $SearchBase -SearchScope $SearchScope -Server $Server -ErrorAction Stop
+                    }
+                    "computer" {
+                        Get-ADComputer -Filter { Enabled -eq $true } -SearchBase $SearchBase -SearchScope $SearchScope -Server $Server -ErrorAction Stop
+                    }
+                    default {
+                        Write-Error -Message "$($FunctionName): Invalid ADObjectType specIfied: '$($ADObjectType)'" -ErrorAction Stop
+                    }
                 }
-                Return $Obj
+                Write-Debug "`$($FunctionName): $Obj must be a collection of AD objects with a Name and an ObjectGUID property: '$($Obj)'"
+            } Catch [Microsoft.ActiveDirectory.Management.ADIdentityNotFoundException] {
+                Write-Error "$($FunctionName): The OU '$SearchBase' does not appear to exist." -ErrorAction Stop
+            } Catch {
+                Write-Error -Message "$($FunctionName): $PSItem" -ErrorAction Stop
             }
+            Return $Obj
         } Catch {
             $PSCmdlet.ThrowTerminatingError($PSItem)
         }
